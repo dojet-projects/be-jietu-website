@@ -1,6 +1,8 @@
 <?php
 
-Dispatcher::loadRoute(array(
-    '/^$/' => UI.'HomeAction',
+Dispatcher::loadRoute(
+    array(
+        '/^$/' => UI.'HomeAction',
+        '/^tu$/' => UI.'TuAction',
     )
 );

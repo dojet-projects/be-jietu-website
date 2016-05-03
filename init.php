@@ -8,7 +8,7 @@ define('CONFIG', PRJ.'config/');
 define('MODEL', PRJ.'model/');
 
 Config::loadConfig(CONFIG.'route');
-Config::loadConfig(CONFIG.'database');
+//Config::loadConfig(CONFIG.'database');
 // Config::loadConfig(CONFIG.'fileupload');
 
 DAutoloader::getInstance()->addAutoloadPathArray(
