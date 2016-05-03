@@ -6,6 +6,7 @@ require dirname(__FILE__).'/../be-jietu-global/init.php';
 define('UI', PRJ.'ui/');
 define('CONFIG', PRJ.'config/');
 define('MODEL', PRJ.'model/');
+define('DATA', PRJ.'data/');
 
 Config::loadConfig(CONFIG.'route');
 //Config::loadConfig(CONFIG.'database');
