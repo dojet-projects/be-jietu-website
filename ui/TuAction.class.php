@@ -54,7 +54,7 @@ class TuAction extends XBaseAction {
         $this->bg->copy($avatar, $a_x, $this->chat_y, 0, 0, 80, 80);
 
         $chatbox = MImage::imageFromFile(DATA.'image/chat-ta.png');
-        $chatbox->resize9(500, 300, 40, 30, 180, 22);
+        $chatbox->resize9(500, 300, 40, 25, 180, 32);
 
         $this->bg->copy($chatbox, 120, $this->chat_y, 0, 0, $chatbox->width(), $chatbox->height());
     }
