@@ -56,6 +56,9 @@ class TuAction extends XBaseAction {
         $chatbox = MImage::imageFromFile(DATA.'image/chat-ta.png');
         $chatbox->resize9(500, 300, 40, 20, 180, 32);
 
+        $arrow = MImage::imageFromFile(DATA.'image/chat-ta-arrow.png');
+        $chatbox->copy($arrow, 0, 0, 0, 0, $arrow->width(), $arrow->height());
+
         $this->bg->copy($chatbox, 120, $this->chat_y, 0, 0, $chatbox->width(), $chatbox->height());
     }
 
