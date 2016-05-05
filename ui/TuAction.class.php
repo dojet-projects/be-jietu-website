@@ -23,7 +23,6 @@ class TuAction extends XBaseAction {
         $this->setSignal(2);
         $this->setNetwork('wifi', 3);
         $this->setTime('16:09');
-        // $bg->copy($img2, 100, 100, 0, 0, 100, 100);
 
         $this->bg->display();
     }
