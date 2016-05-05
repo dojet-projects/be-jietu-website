@@ -19,7 +19,7 @@ class TuAction extends XBaseAction {
         $this->bg = MImage::imageFromFile(DATA.'image/1-1.png');
         $avatar = MImage::imageFromFile(DATA.'image/avatar.jpg');
         $this->setCarrier('中国移动');
-        $this->addChat($avatar, 'hello', false);
+        $this->addChat($avatar, 'hello', true);
         $this->setSignal(2);
         $this->setNetwork('wifi', 3);
         $this->setTime('16:09');
@@ -50,16 +50,33 @@ class TuAction extends XBaseAction {
 
     public function addChat(MImage $avatar, $text, $isMe) {
         $avatar->resize(80, 80);
-        $a_x = 20;
+        if ($isMe) {
+            $a_x = 540;
+            $chatbox_img = DATA.'image/chat-me.png';
+            $arrow_img = DATA.'image/chat-me-arrow.png';
+            $img = MImage::imageFromFile($arrow_img);
+            $cb_x = 20;
+            $cb_w = 500;
+            $cb_h = 300;
+            $arrow_x = $cb_w - $img->width();
+        } else {
+            $a_x = 20;
+            $chatbox_img = DATA.'image/chat-ta.png';
+            $arrow_img = DATA.'image/chat-ta-arrow.png';
+            $cb_x = 120;
+            $cb_w = 500;
+            $cb_h = 300;
+            $arrow_x = 0;
+        }
         $this->bg->copy($avatar, $a_x, $this->chat_y, 0, 0, 80, 80);
 
-        $chatbox = MImage::imageFromFile(DATA.'image/chat-ta.png');
+        $chatbox = MImage::imageFromFile($chatbox_img);
         $chatbox->resize9(500, 300, 40, 20, 180, 32);
 
-        $arrow = MImage::imageFromFile(DATA.'image/chat-ta-arrow.png');
-        $chatbox->copy($arrow, 0, 0, 0, 0, $arrow->width(), $arrow->height());
+        $arrow = MImage::imageFromFile($arrow_img);
+        $chatbox->copy($arrow, $arrow_x, 0, 0, 0, $arrow->width(), $arrow->height());
 
-        $this->bg->copy($chatbox, 120, $this->chat_y, 0, 0, $chatbox->width(), $chatbox->height());
+        $this->bg->copy($chatbox, $cb_x, $this->chat_y, 0, 0, $chatbox->width(), $chatbox->height());
     }
 
 }
