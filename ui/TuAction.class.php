@@ -12,17 +12,19 @@ class TuAction extends XBaseAction {
     protected $bg;
 
     function __construct() {
-        $this->chat_y = 40 + 88 + 88;
+        $this->chat_y = 88 + 40;
     }
 
     public function execute() {
         $this->bg = MImage::imageFromFile(DATA.'image/1-1.png');
         $avatar = MImage::imageFromFile(DATA.'image/avatar.jpg');
         // $this->setCarrier('中国移动');
-        $this->addChat($avatar, '中国移动中国移动中国移动中国移动中国移动中国移动中国移动', true);
+        $this->taSay($avatar, '对了，我们产品基本稳定，5月份研发包括设计、iOS、服务端有闲置人力，有朋友最近在找APP外包的吗');
+        $this->iSay($avatar, '我问问吧，要是有给你介绍');
+
         $this->setSignal(2);
         $this->setNetwork('wifi', 3);
-        $this->setTime('16:09');
+        // $this->setTime('16:09');
 
         $this->bg->display();
     }
@@ -47,71 +49,48 @@ class TuAction extends XBaseAction {
         $this->bg->ttftext($time, DATA.'font/simhei.ttf', 18, 285, 69, 0, 0xffffff);
     }
 
-    public function addChat(MImage $avatar, $text, $isMe) {
-        $avatar->resize(80, 80);
-        if ($isMe) {
-            return $this->iSay($avatar, $text);
-        } else {
-            return $this->heSay($avatar, $text);
-        }
-
-        if ($isMe) {
-            $a_x = 540;
-            $chatbox_img = DATA.'image/chat-me.png';
-            $arrow_img = DATA.'image/chat-me-arrow.png';
-            $img = MImage::imageFromFile($arrow_img);
-            $cb_x = 20;
-            $cb_w = 500;
-            $cb_h = 300;
-            $arrow_x = $cb_w - $img->width();
-        } else {
-            $a_x = 20;
-            $chatbox_img = DATA.'image/chat-ta.png';
-            $arrow_img = DATA.'image/chat-ta-arrow.png';
-            $cb_x = 120;
-            $cb_w = 500;
-            $cb_h = 300;
-            $arrow_x = 0;
-        }
-    }
-
     public function iSay(MImage $avatar, $text) {
+        $this->chat_y += 20;
+        $fontsize = 27;
+        $avatar->resize(80, 80);
         $this->bg->copy($avatar, 540, $this->chat_y, 0, 0, 80, 80);
 
+        $formatText = $this->formatText($text, $fontsize);
+        $rect = $this->getFontRect($formatText, $fontsize);
+        list($rx, $ry, $rw, $rh) = $rect;
+
         $chatbox = MImage::imageFromFile(DATA.'image/chat-me.png');
-        $arrow = MImage::imageFromFile(DATA.'image/chat-me-arrow.png');
-        list($x, $y, $w, $h) = $this->getFontRect($text);
-        $cb_w = $w + 20;
-        $cb_h = $h + 20;
-        $cb_x = 600 - $cb_w;
-        $chatbox->resize9($cb_w, $cb_h, 40, 20, 180, 32);
-        // $chatbox->copy($arrow, $arrow_x, 0, 0, 0, $arrow->width(), $arrow->height());
+        $chatbox->resize9($rw + 70, $rh + 50, 30, 60, 180, 10);
+        $chatbox->ttftext($formatText, DATA.'font/simhei.ttf', $fontsize, 34 + $rx, 25 - $ry);
 
-        $chatbox->ttftext($text, DATA.'font/simhei.ttf', 42, 10, 42);
+        $this->bg->copy($chatbox, 530 - $chatbox->width(), $this->chat_y, 0, 0, $chatbox->width(), $chatbox->height());
 
-        $this->getFontRect($text);
-        $this->bg->copy($chatbox, $cb_x, $this->chat_y, 0, 0, $chatbox->width(), $chatbox->height());
+        $this->chat_y += max($avatar->height(), $chatbox->height()) + 20;
     }
 
-    public function heSay(MImage $avatar, $text) {
-        $this->bg->copy($avatar, $a_x, $this->chat_y, 0, 0, 80, 80);
+    public function taSay(MImage $avatar, $text) {
+        $this->chat_y += 20;
+        $fontsize = 27;
+        $avatar->resize(80, 80);
+        $this->bg->copy($avatar, 20, $this->chat_y, 0, 0, 80, 80);
 
-        $chatbox = MImage::imageFromFile($chatbox_img);
-        $chatbox->resize9(500, 300, 40, 20, 180, 32);
-        $arrow = MImage::imageFromFile($arrow_img);
-        $chatbox->copy($arrow, $arrow_x, 0, 0, 0, $arrow->width(), $arrow->height());
+        $formatText = $this->formatText($text, $fontsize);
+        $rect = $this->getFontRect($formatText, $fontsize);
+        list($rx, $ry, $rw, $rh) = $rect;
 
-        $chatbox->ttftext($text, DATA.'font/simhei.ttf', 42, 10, 42);
+        $chatbox = MImage::imageFromFile(DATA.'image/chat-ta.png');
+        $chatbox->resize9($rw + 70, $rh + 50, 60, 60, 180, 10);
+        $chatbox->ttftext($formatText, DATA.'font/simhei.ttf', $fontsize, 34 + $rx, 25 - $ry);
 
-        $this->getFontRect($text);
-        $this->bg->copy($chatbox, $cb_x, $this->chat_y, 0, 0, $chatbox->width(), $chatbox->height());
+        $this->bg->copy($chatbox, 110, $this->chat_y, 0, 0, $chatbox->width(), $chatbox->height());
+
+        $this->chat_y += max($avatar->height(), $chatbox->height()) + 20;
     }
 
-    private function getFontRect($string) {
-        $maxwidth = 500;
+    private function formatText($text, $size) {
+        $maxwidth = 400;
         $words = '';
-        $size = 40;
-        $array = preg_split('/(?<!^)(?!$)/u', $string);
+        $array = preg_split('/(?<!^)(?!$)/u', $text);
         $font = DATA.'font/simhei.ttf';
         foreach ($array as $c) {
             $r = imagettfbbox($size, 0, $font, $words.$c);
@@ -120,8 +99,13 @@ class TuAction extends XBaseAction {
             }
             $words.= $c;
         }
-        $r = imagettfbbox($size, 0, $font, $words);
-        return array($r[0], $r[1], abs($r[0] - $r[2]), abs($r[1] - $r[7]));
+        return $words;
+    }
+
+    private function getFontRect($text, $size) {
+        $font = DATA.'font/simhei.ttf';
+        $r = imagettfbbox($size, 0, $font, $text);
+        return array($r[6], $r[7], abs($r[0] - $r[2]), abs($r[1] - $r[7]));
     }
 
 }
