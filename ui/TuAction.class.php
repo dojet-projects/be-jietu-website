@@ -16,13 +16,14 @@ class TuAction extends XBaseAction {
     }
 
     public function execute() {
-        $this->bg = MImage::imageFromFile(DATA.'image/1-1.png');
+        $this->bg = MImage::imageFromFile(DATA.'image/bg.png');
 
-        $this->setCarrier('中国移动');
+        $this->setCarrier('中国联通');
         $this->setSignal(2);
         $this->setNetwork('wifi', 3);
-        // $this->setTime('16:09');
+        $this->setTime('20:40');
         $this->setTitle('周波');
+        $this->setBattery(97);
 
         $avatar = MImage::imageFromFile(DATA.'image/avatar.jpg');
         $this->taSay($avatar, '对了，我们产品基本稳定，5月份研发包括设计、iOS、服务端有闲置人力，有朋友最近在找APP外包的吗');
@@ -32,6 +33,15 @@ class TuAction extends XBaseAction {
 
         $this->bg->copyfull(MImage::imageFromFile(DATA.'image/speak.png'), 0, 1036);
         $this->bg->display();
+    }
+
+    public function setBattery($battery) {
+        $fontfile = DATA.'font/sf.ttf';
+        $fontsize = 17;
+        $rect = $this->getFontRect($battery, $fontsize, $fontfile);
+        list($rx, $ry, $rw, $rh) = $rect;
+        $x = 511;
+        $this->bg->ttftext($battery, $fontfile, $fontsize, $x, 29, 0, 0xffffff);
     }
 
     public function setSignal($n = 5) {
@@ -51,13 +61,18 @@ class TuAction extends XBaseAction {
     }
 
     public function setTime($time) {
-        $this->bg->ttftext($time, DATA.'font/simhei.ttf', 18, 285, 69, 0, 0xffffff);
+        $fontfile = DATA.'font/sf-bold.ttf';
+        $fontsize = 17;
+        $rect = $this->getFontRect($time, $fontsize, $fontfile);
+        list($rx, $ry, $rw, $rh) = $rect;
+        $x = (640 - $rw) / 2;
+        $this->bg->ttftext($time, $fontfile, $fontsize, $x, 28, 0, 0xffffff);
     }
 
     public function setTitle($title) {
         $fontsize = 30;
         $formatTitleText = $this->formatTitleText($title, $fontsize);
-        $rect = $this->getFontRect($formatTitleText, $fontsize);
+        $rect = $this->getFontRect($formatTitleText, $fontsize, DATA.'font/simhei.ttf');
         list($rx, $ry, $rw, $rh) = $rect;
 
         $x = (640 - $rw) / 2;
@@ -68,7 +83,7 @@ class TuAction extends XBaseAction {
         $this->chat_y += 20;
         $fontsize = 20;
 
-        list($tx, $ty, $tw, $th) = $this->getFontRect($text, $fontsize);
+        list($tx, $ty, $tw, $th) = $this->getFontRect($text, $fontsize, DATA.'font/simhei.ttf');
 
         $timebox = MImage::imageFromFile(DATA.'image/chattime.png');
         $timebox->resize9($tw + 40, 40, 15, 15, 62, 10);
@@ -88,7 +103,7 @@ class TuAction extends XBaseAction {
         $this->bg->copy($avatar, 540, $this->chat_y, 0, 0, 80, 80);
 
         $formatChatText = $this->formatChatText($text, $fontsize);
-        $rect = $this->getFontRect($formatChatText, $fontsize);
+        $rect = $this->getFontRect($formatChatText, $fontsize, DATA.'font/simhei.ttf');
         list($rx, $ry, $rw, $rh) = $rect;
 
         $chatbox = MImage::imageFromFile(DATA.'image/chat-me.png');
@@ -107,7 +122,7 @@ class TuAction extends XBaseAction {
         $this->bg->copy($avatar, 20, $this->chat_y, 0, 0, 80, 80);
 
         $formatChatText = $this->formatChatText($text, $fontsize);
-        $rect = $this->getFontRect($formatChatText, $fontsize);
+        $rect = $this->getFontRect($formatChatText, $fontsize, DATA.'font/simhei.ttf');
         list($rx, $ry, $rw, $rh) = $rect;
 
         $chatbox = MImage::imageFromFile(DATA.'image/chat-ta.png');
@@ -149,9 +164,8 @@ class TuAction extends XBaseAction {
         return $words;
     }
 
-    private function getFontRect($text, $size) {
-        $font = DATA.'font/simhei.ttf';
-        $r = imagettfbbox($size, 0, $font, $text);
+    private function getFontRect($text, $size, $fontfile) {
+        $r = imagettfbbox($size, 0, $fontfile, $text);
         return array($r[6], $r[7], abs($r[0] - $r[2]), abs($r[1] - $r[7]));
     }
 
