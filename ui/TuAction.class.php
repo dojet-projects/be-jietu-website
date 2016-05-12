@@ -23,7 +23,7 @@ class TuAction extends XBaseAction {
         $this->setNetwork('wifi', 3);
         $this->setTime('20:40');
         $this->setTitle('周波');
-        $this->setBattery(100);
+        $this->setBattery(64);
 
         $avatar = MImage::imageFromFile(DATA.'image/avatar.jpg');
         $this->taSay($avatar, '对了，我们产品基本稳定，5月份研发包括设计、iOS、服务端有闲置人力，有朋友最近在找APP外包的吗');
@@ -59,8 +59,8 @@ class TuAction extends XBaseAction {
         $fontsize = 17;
         $rect = $this->getFontRect($battery, $fontsize, $fontfile);
         list(, , $rw) = $rect;
-        $x-= $rw + 22;
-        $this->bg->ttftext($battery, $fontfile, $fontsize, $x, 29, 0, 0xffffff);
+        $x-= $rw + 25;
+        $this->bg->ttftext($battery.'%', $fontfile, $fontsize, $x, 29, 0, 0xffffff);
     }
 
     public function setSignal($n = 5) {
