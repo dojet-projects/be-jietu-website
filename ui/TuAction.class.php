@@ -23,7 +23,7 @@ class TuAction extends XBaseAction {
         $this->setNetwork('wifi', 3);
         $this->setTime('20:40');
         $this->setTitle('周波');
-        $this->setBattery(97);
+        $this->setBattery(100);
 
         $avatar = MImage::imageFromFile(DATA.'image/avatar.jpg');
         $this->taSay($avatar, '对了，我们产品基本稳定，5月份研发包括设计、iOS、服务端有闲置人力，有朋友最近在找APP外包的吗');
@@ -36,11 +36,30 @@ class TuAction extends XBaseAction {
     }
 
     public function setBattery($battery) {
+        $x = 640;
+
+        $img = MImage::imageFromFile(DATA.'image/battery.png');
+        $x-= 8;
+        $x-= $img->width();
+        $len = $battery / 100 * 41;
+        if ($len < 2) {
+            $len = 0;
+        } elseif ($len < 41) {
+            $len = min($len, 39);
+        } else {
+            $len = 39;
+            $img->setpixel(45, 13, 0x9a999c)
+                ->line(45, 14, 45, 26, 0xffffff)
+                ->setpixel(45, 27, 0x9a999c);
+        }
+        $img->filledrect(6, 13, 6 + $len, 27, 0xffffff);
+        $this->bg->copyfull($img, $x, 0);
+
         $fontfile = DATA.'font/sf.ttf';
         $fontsize = 17;
         $rect = $this->getFontRect($battery, $fontsize, $fontfile);
-        list($rx, $ry, $rw, $rh) = $rect;
-        $x = 511;
+        list(, , $rw) = $rect;
+        $x-= $rw + 22;
         $this->bg->ttftext($battery, $fontfile, $fontsize, $x, 29, 0, 0xffffff);
     }
 
