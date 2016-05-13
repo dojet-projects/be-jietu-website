@@ -13,6 +13,7 @@
 
     <!-- Bootstrap core CSS -->
     <link href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+    <link href="http://cdn.bootcss.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -24,7 +25,7 @@
   <body style="margin-top:60px;">
 
     <nav class="navbar navbar-inverse navbar-fixed-top">
-      <div class="container">
+      <div class="container-fluid">
         <div class="navbar-header">
           <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
             <span class="sr-only">Toggle navigation</span>
@@ -44,9 +45,24 @@
       </div>
     </nav>
 
-    <div class="container">
+    <div class="container-fluid">
       <div class="row">
-        <div class="col-xs-1">
+        <div class="col-lg-3 col-md-6">
+          <a href="/wechat">
+            <div class="panel panel-info">
+              <div class="panel-heading">
+                <div class="row">
+                  <div class="col-xs-3"><i class="fa fa-wechat fa-5x"></i></div>
+                  <div class="col-xs-9 text-right" style="margin-top:40px;">生成微信对话</div>
+                </div>
+              </div>
+              <div class="panel-body">
+                <span class="pull-left">点击制作</span>
+                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                <div class="clearfix"></div>
+              </div>
+            </div>
+          </a>
         </div>
       </div>
 
