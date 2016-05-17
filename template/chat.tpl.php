@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="zh-CN">
   <head>
@@ -9,7 +8,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Starter Template for Bootstrap</title>
+    <title>对话</title>
 
     <!-- Bootstrap core CSS -->
     <link href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
@@ -45,60 +44,16 @@
       </div>
     </nav>
 
-    <div class="container-fluid">
+    <div class="container-fluid" style="position: fixed; bottom: .5em;">
       <div class="row">
-        <form class="form-horizontal col-xs-12" method="post" action="/wechat/image">
-
           <div class="form-group">
-            <label for="" class="col-sm-2 col-xs-12 control-label">时间</label>
-            <div class="col-xs-5 col-md-2 col-sm-5">
-              <select name="hour" class="form-control">
-              <?php for ($i = 0; $i < 24; $i++) : ?>
-                <option value="<?=sprintf("%02d", $i)?>" <?=$i == date("H") ? 'selected' : ''?>><?=sprintf("%02d", $i)?></option>
-              <?php endfor; ?>
-              </select>
+            <div class="col-sm-10 col-xs-10">
+              <input type="text" class="form-control" />
             </div>
-            <div class="col-xs-5 col-md-2 col-sm-5">
-              <select name="minute" class="form-control">
-              <?php for ($i = 0; $i < 60; $i++) : ?>
-                <option value="<?=sprintf("%02d", $i)?>" <?=$i == date("i") ? 'selected' : ''?>><?=sprintf("%02d", $i)?></option>
-              <?php endfor; ?>
-              </select>
+            <div class="col-sm-2 col-xs-2">
+              <button type="submit" class="btn btn-success">发送</button>
             </div>
           </div>
-
-          <div class="form-group">
-            <label for="" class="col-sm-2 col-xs-12 control-label">电量</label>
-            <div class="col-xs-5 col-md-2 col-sm-5">
-              <select name="battery" class="form-control">
-              <?php $battery = (date("YmdHi") + date("s")) % 100; ?>
-              <?php for ($i = 1; $i <= 100; $i++) : ?>
-                <option value="<?=sprintf("%d", $i)?>" <?=$i == $battery ? 'selected' : ''?>><?=sprintf("%d", $i)?>%</option>
-              <?php endfor; ?>
-              </select>
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label for="" class="col-sm-2 col-xs-12 control-label">运营商</label>
-            <div class="col-xs-5 col-md-2 col-sm-5">
-              <select name="carrier" class="form-control">
-              <?php foreach (array('中国移动', '中国联通', '中国电信') as $carrier) : ?>
-                <option value="<?=$carrier?>"><?=$carrier?></option>
-              <?php endforeach; ?>
-              </select>
-            </div>
-          </div>
-
-          <hr />
-          <div class="form-group">
-            <div class="col-sm-offset-2 col-sm-10">
-              <button type="submit" class="btn btn-primary">开始对话</button>
-            </div>
-          </div>
-
-        </form>
-
       </div>
     </div><!-- /.container -->
 

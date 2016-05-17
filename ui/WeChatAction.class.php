@@ -10,7 +10,7 @@
 class WeChatAction extends XBaseAction {
 
     public function execute() {
-        $this->displayTemplate('wechat.tpl.php');
+        $this->displayTemplate('chat.tpl.php');
     }
 
 }
